@@ -1,0 +1,111 @@
+﻿
+@{
+    ViewBag.MyName = "Unallocate all classrooms";
+       Layout = "~/Views/ClassroomLayout.cshtml";
+}
+
+@section styles{
+
+    <style>
+        #viewRoomSchedule {
+            width: 80%;
+        } 
+        td {
+            padding: 6px;
+            text-align: center;
+        }
+
+        .unassignclass {
+            background: rgb(164,187,242);
+            cursor: pointer;
+            color: black;
+            font-weight: bold;
+        }
+
+        label {
+            font-size: 1.2em;
+        }
+
+
+        input[type="text"], input[type="textarea"], input[type="select"] {
+            width: 400px;
+            height: 30px;
+        }
+
+        button {
+            width: 120px;
+        }
+
+        select {
+            font-size: 1.1em;
+        }
+
+        table {
+            width: 80%;
+        }
+</style>
+
+}
+<br/><br /><br /><br />
+
+<fieldset>
+
+    <legend>Unallocate All Classrooms</legend>
+
+    <br /><br /><br /><br /><br />
+
+    <center>
+
+        <table>
+
+            <tr>
+            <td>
+
+                <br/><br/><br/><br/><br/>
+
+                <form method="POST">
+                                        
+                    <input type="submit" onclick="result(event)" value="Unallocate classrooms" style="font-size:1.1em;padding:5px;"/>
+
+
+
+                </form>
+
+            </td>
+
+                </tr>
+
+        </table>
+
+    </center>
+
+    <br/><br/><br/><br/>
+
+    <center>
+
+        <h3>@ViewBag.Message</h3>
+
+    </center>
+
+    <br /><br /><br /><br />
+
+</fieldset>
+
+@section scripts
+{
+    <script>
+        
+
+        function result(event) {
+
+            var r = confirm("Are you sure to unallocate all classrooms info?");
+
+            if (!r) {
+                event.preventDefault();
+            }
+        }
+
+    </script>
+
+}
+

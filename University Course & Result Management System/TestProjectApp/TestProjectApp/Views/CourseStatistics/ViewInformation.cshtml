@@ -1,0 +1,162 @@
+﻿@using TestProjectApp.Models
+@model TestProjectApp.Models.CourseStatisticsViewModel
+@{
+    List<CourseStatisticsViewModel> information = ViewBag.Information;
+
+    ViewBag.MyName = "View Course Statistics";
+    Layout = "~/Views/CourseLayout.cshtml";
+}
+
+@section styles{
+
+    <style>
+        .viewcourse {
+            background: rgb(164,187,242);
+            cursor: pointer;
+            color: black;
+            font-weight: bold;
+        }
+
+        label {
+            font-size: 1.2em;
+        }
+
+        input {
+            width: 400px;
+            height: 30px;
+        }
+
+        select {
+            font-size: 1.1em;
+        }
+
+        table {
+            width: 80%;
+        }
+    </style>
+}
+
+
+<br /><br /><br />
+@using (Html.BeginForm())
+{
+
+        <fieldset>
+
+
+                <legend>View Course Statistics</legend>
+
+
+
+            <center>
+                <br /><br /><br /><br />
+                <table>
+                    <tr>
+                        <td></td>
+                        <td>@Html.LabelFor(m => m.DeptId)</td>
+
+                        <td>
+
+                            <select name="DeptId" id="departmentId">
+                                <option value="">-Select a Department-</option>
+
+                                @if (ViewBag.Departments != null)
+                                {
+
+                                    foreach (var aDepartment in ViewBag.Departments)
+                                    {
+                                        <option value="@aDepartment.Id">@aDepartment.DepartmentName</option>
+                                    }
+
+                                }
+
+
+                            </select>
+
+                        </td>
+                    </tr>
+                </table>
+                <br /><br /><br /><br />
+
+            </center>
+
+            <center>
+                <table class="table table-bordered table-hover table-striped" id="informationTable">
+                    <thead>
+                        <tr style="background:rgb(52,179,239);">
+                
+                            <th>
+                                <p class="tablehead">
+                                    Code
+                                </p>
+                            </th>
+                            <th>
+                                <p class="tablehead">
+                                    Name/Title
+                                </p>
+                            </th>
+                            <th>
+                                <p class="tablehead">
+                                    Semester
+                                </p>
+                            </th>
+                            <th>
+                                <p class="tablehead">
+                                    Assigned To
+                                </p>
+                            </th>
+                        </tr>
+
+                    </thead>
+                    <tbody id="tableBody"></tbody>
+                </table>
+
+
+            </center>
+
+        <br/><br/><br/><br/>
+
+
+        </fieldset>
+
+
+}
+
+@section scripts{
+
+
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/DataTables/jquery.dataTables.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $("#departmentId").change(function () {
+
+            $("#tableBody").empty();
+            var deptId = $("#departmentId").val();
+            var json = { departmentId: deptId };
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("GetAllInformation", "CourseStatistics")',
+
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify(json),
+                success: function (data) {
+
+                    $.each(data, function (key, value) {
+
+
+                        $("#informationTable").append('<tr> <td style="text-align: center; font-size: 1.1em; background: rgb(243,251,254);">' + value.CourseCode + '</td> <td style="text-align: center; font-size: 1.1em; background: rgb(243,251,254);">' + value.CourseName + '</td> <td style="text-align: center; font-size: 1.1em; background: rgb(243,251,254);">' + value.SemesterName + '</td> <td style="text-align: center; font-size: 1.1em; background: rgb(243,251,254);">' + value.AssignedTo + '</td></tr>');
+
+
+                    });
+                }
+            });
+
+        });
+    });
+
+</script>
+
+
+}

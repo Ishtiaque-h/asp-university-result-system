@@ -1,0 +1,99 @@
+﻿@using TestProjectApp.Models;
+@model IEnumerable<Department>
+
+@{
+    ViewBag.MyName = "View All Departments";
+    Layout = "~/Views/DepartmentLayout.cshtml";
+    int i = 1;
+}
+
+@section styles{
+
+    <style>
+        .viewdep {
+            background: rgb(164,187,242);
+            cursor: pointer;
+            color: black;
+            font-weight: bold;
+        }
+
+        label {
+            font-size: 1.2em;
+        }
+
+        input {
+            width: 400px;
+            height: 30px;
+        }
+
+        th, td {
+        text-align:center;
+        }
+
+        td {
+            width: 50%;
+        }
+    </style>
+}
+
+<center>
+
+    <br/><br/>
+
+        <fieldset>
+            <legend>View All Departments</legend>
+
+            <br/><br/><br/>
+
+
+
+                <table class="table-bordered">
+                    <thead>
+                        <tr style="background:rgb(52,179,239);">
+                            <th>
+                                <p class="tablehead">
+
+                                    Code
+                                </p>
+                            </th>
+                            <th>
+                                <p class="tablehead">
+
+                                    Department Name
+                                </p>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var department in Model)
+                        {
+                            if (i == 0)
+                            {
+                                <tr>
+                                    <td style="text-align: center; font-size: 1.1em; background: rgb(192,231,250);">@department.Code</td>
+                                    <td style="text-align: center; font-size: 1.1em; background: rgb(192,231,250); ">@department.DepartmentName</td>
+                                </tr>
+                                i = 1;
+                            }
+
+                            else
+                            {
+                                <tr>
+                                    <td style="text-align: center; font-size: 1.1em;">@department.Code</td>
+                                    <td style="text-align: center; font-size: 1.1em;">@department.DepartmentName</td>
+                                </tr>
+
+                                i = 0;
+                            }
+                        }
+                    </tbody>
+                </table>
+            
+
+            <br/><br/><br/></br>
+
+            </fieldset>
+
+    </center>
+
+

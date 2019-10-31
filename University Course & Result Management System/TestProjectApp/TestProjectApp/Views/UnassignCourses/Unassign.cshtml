@@ -1,0 +1,72 @@
+﻿@{
+        ViewBag.MyName = "Unassign All courses";
+    Layout = "~/Views/CourseLayout.cshtml";
+}
+
+@section styles{
+
+    <style>
+        .unassigncourse {
+            background: rgb(164,187,242);
+            cursor: pointer;
+            color: black;
+            font-weight: bold;
+        }
+
+        label {
+            font-size: 1.2em;
+        }
+
+        input {
+            width: 400px;
+            height: 30px;
+        }
+
+        select {
+            font-size: 1.1em;
+        }
+
+        table {
+            width: 80%;
+        }
+    </style>
+}
+
+
+<br /><br /><br />
+
+
+        <fieldset>
+    <legend>Unassign All Courses</legend>
+
+            <center>
+                <form method="POST">
+                    <br /><br /><br/>
+                    <input class="button" id="submit" type="submit" value="Unassign Courses" onclick="result(event)" />
+
+                </form>
+                <br /><br /><br /><br />
+                <label>@ViewBag.Message</label>
+
+            </center>
+            <br /><br /><br /><br />
+
+
+</fieldset>
+
+@section scripts{
+
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script>
+    function result(event) {
+        var r = confirm("Are you sure to unassign all courses");
+        if (!r) {
+            event.preventDefault();
+        }
+    }
+</script>
+
+
+
+}

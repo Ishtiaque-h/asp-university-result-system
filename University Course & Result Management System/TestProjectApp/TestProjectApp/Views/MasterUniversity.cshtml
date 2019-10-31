@@ -1,0 +1,110 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+
+    <style>
+        *{margin: 0; padding: 0; font-family: verdana;}
+        legend{font-weight: bold;font-size:1.4em;}
+        .tablehead {
+            font-size:1.3em;font-weight:bold;padding:8px;text-align:center;
+        }
+        a:visited{color:black;} button, input[type="button"]{ font-size: 1.1em;padding: 6px;}
+        label{font-size:1.1em;font-weight: bold;}
+        input{font-size: 1em;}
+        .mainWrapper{width:100%;min-height:960px;} .mainMenuWrapper{width: 100%;background: rgb(120,150,160);height: 130px;}
+        .psubmenu{color: white;font-size: 1.3em;font-weight: bold; display: inline-block;width:19%;height: 35px;padding-top: 5px;text-align: center;}
+        .submenudiv{margin: 0 auto;} .psubmenu:hover {background-color: rgb(203,188,226);color: black;cursor: pointer;}
+        .submenu {background: rgb(120,80,180);}
+        .container{width:100%;min-height:700px;}
+        .mainWrapper, .submenu, .container{position:relative;}
+        .conleft {border-radius: 6px; float: left;width: 20%;background: rgb(28, 105, 151);min-height:700px;position:relative;left:0;} .conright{float: right;width: 80%;min-height: 70px;}
+        td{text-align: center;} .viewTable{width: 70%;}
+        .viewTable td {width: 50%;}
+        .subsubmenu {border-radius: 8px;width: 100%;font-size: 1.2em;color: white;text-align: center;}
+        .subsubmenu:hover {background: rgb(164,187,242);cursor: pointer;color: black;font-weight: bold;}
+        a{text-decoration: none;} a:visited{color: black;}
+        table td{text-align: left;} td{font-size:16px;text-align:center;padding:8px;}
+        label.error {
+        color:red;
+        }
+        .subsubmenu {
+            border-radius: 8px;
+            width: 100%;
+            font-size: 1.2em;
+            color: white;
+            text-align: center;
+        }
+     </style>
+    
+    @RenderSection("styles", required: false)
+
+</head>
+    <body>
+        
+        <div class="mainWrapper">
+            
+            <div class="mainMenuWrapper">
+                
+
+            </div>
+            
+            
+            <div class="submenu">
+                
+                <center>
+
+                    <a href="/Department/SaveDepartment">
+
+                        <p class="psubmenu department">Department</p>
+
+                    </a>
+
+                    <a href="/Course/SaveCourse">
+                        <p class="psubmenu course">Course</p>
+
+                    </a>
+
+                    <a href="/Teacher/SaveTeacher">
+                        <p class="psubmenu teacher">Teacher</p>
+
+                    </a>
+
+                    <a href="/Student/SaveStudent">
+                        <p class="psubmenu student">Student</p>
+
+                    </a>
+
+                    <a href="/Room/SaveRoom">
+                        <p class="psubmenu classrooms">Classrooms</p>
+                    </a>
+
+</center>
+
+            </div>
+            
+            <div class="container">
+
+
+                        @RenderBody()             
+                
+
+            </div>
+
+
+        </div>
+
+        <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+        <script src="~/Scripts/jquery.validate.js"></script>
+        @*<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>*@
+        
+        @RenderSection("scripts", required: false)
+
+    </body>
+</html>

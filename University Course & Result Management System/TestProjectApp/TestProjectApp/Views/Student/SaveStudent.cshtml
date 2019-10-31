@@ -1,0 +1,219 @@
+﻿@using TestProjectApp.Models
+@model Student
+
+@{
+    Layout = "~/Views/StudentLayout.cshtml";
+}
+
+@section styles{
+
+    <style>
+        .registerstudent {
+            background: rgb(164,187,242);
+            cursor: pointer;
+            color: black;
+            font-weight: bold;
+        }
+
+        label {
+            font-size: 1.2em;
+        }
+
+
+        input[type="text"], input[type="textarea"], input[type="select"] {
+            width: 400px;
+            height: 30px;
+        }
+
+        button {
+            width: 120px;
+        }
+
+        select {
+            font-size: 1.1em;
+        }
+
+        table {
+            width: 80%;
+        }
+    </style>
+}
+
+<center>
+    <br/><br/><br/>
+
+        <fieldset>
+            <legend>Register Student</legend>
+            <form id="myForm" method="post">
+
+                <br/><br/><br/><br/>
+
+                <table>
+                    <tr>
+                        <td>@Html.LabelFor(m => m.Name)</td>
+                        <td>@Html.TextBoxFor(m => m.Name)</td>
+                    </tr>
+
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td>@Html.ValidationMessageFor(m => m.Name)</td>
+                    </tr>
+
+                    <tr>
+                        <td><br />@Html.LabelFor(m => m.Email)</td>
+                        <td><br />@Html.TextBoxFor(m => m.Email)</td>
+
+                    </tr>
+
+                    <tr>
+
+                        <td>&nbsp;</td>
+                        <td>@Html.ValidationMessageFor(m => m.Email)</td>
+                    </tr>
+
+                    <tr>
+                        <td><br />@Html.LabelFor(m => m.ContactNo)</td>
+                        <td><br />@Html.TextBoxFor(m => m.ContactNo)</td>
+
+                    </tr>
+
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td>@Html.ValidationMessageFor(m => m.ContactNo)</td>
+                    </tr>
+
+                    <tr>
+                        <td><br />@Html.LabelFor(m => m.Date)</td>
+                        <td><br />@Html.TextBoxFor(m => m.Date)</td>
+
+                    </tr>
+
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td>@Html.ValidationMessageFor(m => m.Date)</td>
+                    </tr>
+
+                    <tr>
+                        <td><br />@Html.LabelFor(m => m.Address)</td>
+                        <td><br />@Html.TextAreaFor(m => m.Address)</td>
+
+                    </tr>
+
+                    <tr>
+                        <td></td>
+                        <td>@Html.ValidationMessageFor(m => m.Address)</td>
+                    </tr>
+
+                    <tr>
+                        <td><br />@Html.LabelFor(m => m.DepartmentId)</td>
+                        <td><br />@Html.DropDownListFor(m => m.DepartmentId, new SelectList(ViewBag.Deapartments, "Id", "DepartmentName"), "--Select--", " ")</td>
+                    </tr>
+
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td>@Html.ValidationMessageFor(m => m.DepartmentId)</td>
+                    </tr>
+
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td><button type="submit" onclick="checkMail()">Register</button></td>
+                    </tr>
+                </table>
+            </form>
+        </fieldset>
+
+    <br/><br /><br /><br /><br />
+
+        <p>@ViewBag.Message</p>
+
+</center>
+    
+@section scripts{
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/jquery.validate.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+<script src="~/Scripts/jqui.js"></script>
+
+<script>
+
+    $(document).ready(function () {
+
+        $("#Date").datepicker({
+            changeMonth: true,
+            changeYear: true,
+            dateFormat: "yy-mm-dd",
+            yearRange: '1940:2016'
+
+        });
+
+        var time = new Date();
+
+        var year = time.getFullYear();
+        var month = time.getMonth() + 1;
+        var day = time.getDate();
+
+        var today = year + "/" + month + "/" + day;
+
+        $("#Date").val(today);
+
+    });
+
+
+    $("#myForm").validate({
+
+        rules: {
+
+            Name: "required",
+
+            ContactNo: {
+
+                required: true,
+                number: true
+            },
+
+            Date: "required",
+
+            Address: "required",
+
+            DepartmentId: "required",
+
+            Email: {
+                required: true,
+                email: true,
+            }
+
+        },
+
+        messages: {
+
+            Name: "<br/>Please enter a name",
+
+            ContactNo: {
+
+                required: "<br/>Please provide Contact No.",
+                number: "Contact No. must be numeric value"
+            },
+
+            Date: "<br/>Please choose date",
+
+            Address: "<br/>Please enter address",
+
+            DepartmentId: "<br/>Please select a department",
+
+            Email: {
+                required: "<br/>Email is required",
+                email: "<br/>PLease enter a valid email address"
+
+            }
+
+        }
+
+    });
+
+
+</script>
+
+
+
+}

@@ -1,0 +1,140 @@
+﻿@using TestProjectApp.Models
+
+@model RoomInfo
+
+@{
+    ViewBag.MyName = "View Classroom Schedule and Room Allocation Information";
+    List<Department> departments = ViewBag.Departments;
+    Layout = "~/Views/ClassroomLayout.cshtml";
+}
+
+@section styles{
+
+    <style>
+        #viewRoomSchedule {
+            width: 80%;
+        } 
+        td {
+            padding: 6px;
+            text-align: center;
+        }
+
+        .viewschedule {
+            background: rgb(164,187,242);
+            cursor: pointer;
+            color: black;
+            font-weight: bold;
+        }
+
+        label {
+            font-size: 1.2em;
+        }
+
+
+        input[type="text"], input[type="textarea"], input[type="select"] {
+            width: 400px;
+            height: 30px;
+        }
+
+        button {
+            width: 120px;
+        }
+
+        select {
+            font-size: 1.1em;
+        }
+
+        table {
+            width: 80%;
+        }
+</style>
+
+}
+
+<center>
+
+    <br/><br /><br />
+
+
+    <fieldset>
+
+        <legend>View Classroom Schedule and Room Allocation Information</legend>
+
+
+            <br /><br /><br /><br /><br /><br />
+
+            <form method="post">
+
+                <table>
+
+                    <tr>
+                        <td>
+                            <label for="DepartmentId">Department Name : </label>
+                        </td>
+
+                        <td>
+                            <select id="DepartmentId" name="DepartmentId">
+                                <option value="">-Select a Department-</option>
+
+                                @if (departments != null)
+                                {
+                                    foreach (Department aDepartment in departments)
+                                    {
+                                        <option value="@aDepartment.Id">@aDepartment.DepartmentName</option>
+                                    }
+                                }
+
+                            </select>
+                        </td>
+                    </tr>
+
+                </table>
+
+            </form>
+
+            <br /><br /><br />
+
+            <table id="viewRoomSchedule" border="1"></table>
+
+        <br/><br /><br /><br /><br />
+
+
+    </fieldset>
+
+
+</center>
+
+@section scripts
+{
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+
+    <script>
+
+        $(document).ready(function () {
+
+            $("#DepartmentId").change(function () {
+                var departmentId = $("#DepartmentId").val();
+                $("#viewRoomSchedule").empty();
+                var json = { departmentId: departmentId };
+
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("GetCourseScheduleByDepartmentId", "Room")',
+                    contentType: "application/json; charset=utf-8",
+                    data: JSON.stringify(json),
+                    success: function (data) {
+                        $("#viewRoomSchedule").append('<tr style="font-size:1.2em;"><td width="15%" style="font-weight:bold;">Course Code</td><td width="25%" style="font-weight:bold;">Name</td><td width="60%" style="font-weight:bold;">Schedule Info</td></tr>');
+                        $.each(data, function (key, value) {
+                            $("#viewRoomSchedule").append('<tr><td width="15%">' + value.CourseCode + '</td><td width="25%">' + value.CourseName + '</td><td width="60%">' + value.RoomDescription + '</td></tr>');
+                        });
+                    }
+                });
+
+            });
+        });
+    </script>
+
+}

@@ -1,0 +1,113 @@
+﻿@using TestProjectApp.Models
+@model Student
+
+
+
+@{
+    ViewBag.Title = "View Student Info";
+    Layout = "~/Views/StudentLayout.cshtml";
+    Student aStudent = new Student();
+    aStudent = ViewBag.StudentInfo;
+}
+
+
+@section styles{
+    <style>td{width:50%}</style>
+}
+
+
+<center>
+
+    <br/><br /><br />
+    <h2>Student Information has been saved successfully</h2>
+
+    <br/><br/><br/>
+    <br 
+
+    <h3>Here are the saved information</h3>
+
+    <br /><br /><br /><br /><br />
+    <br/><br/>
+
+    <table width="80%">
+
+
+        <tr>
+
+            <td><br/><p style="font-weight:bold;font-size:1.2em;">Name :</p></td>
+            <td><br/>@aStudent.Name</td>
+
+        </tr>
+
+
+        <tr>
+
+            <td><br /><p style="font-weight:bold;font-size:1.2em;">Registration No.</p></td>
+            <td><br />@aStudent.RegNo</td>
+
+        </tr>
+
+
+
+        <tr>
+
+            <td><br /><p style="font-weight:bold;font-size:1.2em;">Email</p></td>
+            <td><br />@aStudent.Email</td>
+
+        </tr>
+
+
+        <tr>
+
+            <td><br /><p style="font-weight:bold;font-size:1.2em;">Department Name :</p></td>
+            <td><br />@aStudent.DepartmentName</td>
+
+        </tr>
+
+
+
+        <tr>
+
+            <td><br /><p style="font-weight:bold;font-size:1.2em;">Contact No.</p></td>
+            <td><br />@aStudent.ContactNo</td>
+
+        </tr>
+
+
+
+        <tr>
+
+            <td><br /><p style="font-weight:bold;font-size:1.2em;">Entry Date :</p></td>
+            <td><br />@aStudent.Date.ToShortDateString()</td>
+
+        </tr>
+
+
+        <tr>
+
+            <td><br/><p style="font-weight:bold;font-size:1.2em;">Address :</p></td>
+            <td><br/>@aStudent.Address</td>
+
+        </tr>
+
+
+    </table>
+
+    <br/><br/><br/><br /><br /><br /><br />
+
+    <a style="text-decoration:none;" href="/Student/SaveStudent">
+     
+    <p style="display:inline-block;padding:8px;text-align:center;font-size:1em;border-radius:6px;border:solid 2px black;">
+
+        Save Another Student's Information
+
+    </p>
+    
+    </a>
+
+    <br/><br/>
+
+
+</center>
+
+

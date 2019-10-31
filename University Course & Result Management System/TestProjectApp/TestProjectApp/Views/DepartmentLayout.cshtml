@@ -1,0 +1,58 @@
+﻿
+@{
+    ViewBag.Title = ViewBag.MyName;
+    Layout = "~/Views/MasterUniversity.cshtml";
+}
+
+@section styles
+{
+    @RenderSection("styles", required: false)
+    
+    <style>
+
+        .department{
+            background-color: rgb(203,188,226);
+            color: black;
+            cursor: pointer;
+        }
+
+    </style>
+
+}
+
+<div class="conleft">
+
+    <br /><br />
+    
+    
+    <a href="/Department/SaveDepartment">
+
+        <p class="subsubmenu savedep"><br />Save Department<br /><br /></p>
+
+    </a>
+
+    <a href="/Department/Index">
+
+        <p class="subsubmenu viewdep"><br />View All Departments<br /><br /></p>
+
+    </a>
+
+        <br /><br /><br /><br />
+
+</div>
+
+<div class="conright">
+
+    <div class="wrapIt">
+
+        @RenderBody()
+
+    </div>
+
+</div>
+
+@section scripts
+{
+    @RenderSection("scripts", required: false)
+}
+

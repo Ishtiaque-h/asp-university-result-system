@@ -1,0 +1,33 @@
+﻿@using TestProjectApp.Models
+@model Student
+
+@{
+    ViewBag.Title = "ViewResult";
+    Layout = "~/Views/ClassroomLayout.cshtml";
+    Student aStudent = ViewBag.Result;
+}
+
+<h2>View Result</h2>
+
+<br/><br/>
+
+<table width="80%">
+
+    <tr>
+        <td><br/>
+            <label for="StudentId"></label>
+
+        </td>
+
+            <td><br/>
+        
+                <p>@aStudent.Id</p>
+
+            </td>
+
+    </tr>
+
+</table>
+
+
+

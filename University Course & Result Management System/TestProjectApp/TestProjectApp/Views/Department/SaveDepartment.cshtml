@@ -1,0 +1,131 @@
+﻿@using TestProjectApp.Models
+@model Department
+@{
+    ViewBag.MyName = "Save Department";
+    Layout = "~/Views/DepartmentLayout.cshtml";
+}
+
+@section styles{
+
+    <style>
+        .savedep{
+            background: rgb(164,187,242);
+            cursor: pointer;
+            color: black;
+            font-weight: bold;
+        }
+
+        label{
+            font-size:1.2em;
+        }
+
+        input{
+            width:400px;
+            height:30px;
+        }
+        td{
+            width:50%;
+        }
+
+    </style>
+
+}
+
+
+<center>
+    <div width="80%">
+
+        <br/><br /><br /><br />
+        
+        <fieldset>
+            <legend>Save Department</legend>
+            <form id="myForm" method="post">
+                <br/><br /><br />
+                <table>
+                    <tr>
+                        <td>@Html.LabelFor(m => m.Code)</td>
+                        <td>@Html.TextBoxFor(m => m.Code)</td>
+                    </tr>
+
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td>@Html.ValidationMessageFor(m => m.Code)</td>
+                    </tr>
+
+                    <tr>
+                        <td><br /><label for="DepartmentName">Department Name</label></td>
+                        <td><br />@Html.TextBoxFor(m => m.DepartmentName)</td>
+
+                    </tr>
+
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td>@Html.ValidationMessageFor(m => m.DepartmentName)  </td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td><button>Save</button></td>
+                    </tr>
+                    </tr>
+                </table>
+            </form>
+            <br /><br /><br />
+
+            <center>
+
+                <h3>@ViewBag.Message</h3>
+
+            </center>
+
+            <br /><br /><br />
+
+        </fieldset>
+    </div>
+
+</center>
+
+    
+
+@section scripts{
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/jquery.validate.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+<script>
+
+
+    $("#myForm").validate({
+
+
+        rules: {
+
+            Code: {
+                required: true,
+                minlength: 2,
+                maxlength: 7
+            },
+
+            DepartmentName: "required"
+
+        },
+
+        messages: {
+
+            Code: {
+                required: "<br/>Please enter the department code",
+                minlength: "<br/>Department code must be at least 2 characters long",
+                maxlength: "<br/>Department code should have  not more than 7 characters"
+            },
+
+            DepartmentName: "<br/>Please enter a department name"
+
+        }
+
+
+    });
+
+
+</script>
+
+}

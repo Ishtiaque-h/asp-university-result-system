@@ -1,0 +1,209 @@
+﻿@using TestProjectApp.Models
+@model Teacher
+
+@{
+    Layout = null;
+    List<Designation> designations = ViewBag.Designations;
+    List<Department> departments = ViewBag.Deapartments;
+    ViewBag.MyName = "Save Teacher";
+    Layout = "~/Views/TeacherLayout.cshtml";
+}
+
+@section styles{
+
+    <style>
+        .saveteacher {
+            background: rgb(164,187,242);
+            cursor: pointer;
+            color: black;
+            font-weight: bold;
+        }
+
+        label {
+            font-size: 1.2em;
+        }
+
+
+        input[type="text"], input[type="textarea"], input[type="select"] {
+            width:400px;
+            height:30px;
+        }
+
+        button {
+            width: 120px;
+        }
+
+        select {
+            font-size: 1.1em;
+        }
+
+        table {
+            width: 80%;
+        }
+    </style>
+}
+
+
+<br /><br /><br />
+ 
+            <fieldset>
+                <legend>Save Teacher</legend>
+                 <form id="myForm" method="post">
+
+                     <br/><br /><br /><br /><br />
+                
+                    <table>
+                        <tr>
+                            <td>@Html.LabelFor(m => m.Name)</td>
+                            <td>@Html.TextBoxFor(m => m.Name)</td>
+                        </tr>
+
+                        <tr>
+                            <td>&nbsp;</td>
+                            <td>@Html.ValidationMessageFor(m => m.Name)</td>
+                        </tr>
+
+                        <tr>
+                            <td><br />@Html.LabelFor(m => m.Address)</td>
+                            <td><br />@Html.TextAreaFor(m => m.Address)</td>
+
+                        </tr>
+
+                        <tr>
+                            <td>&nbsp;</td>
+                            <td>@Html.ValidationMessageFor(m => m.Address)  
+                        </tr>
+
+                        <tr>
+                            <td><br />@Html.LabelFor(m => m.Email)</td>
+                            <td><br />@Html.TextBoxFor(m => m.Email)</td>
+
+                        </tr>
+
+                        <tr>
+                            <td>&nbsp;</td>
+                            <td>@Html.ValidationMessageFor(m => m.Email)</td>
+                        </tr>
+
+                        <tr>
+                            <td><br />@Html.LabelFor(m => m.ContactNo)</td>
+                            <td><br />@Html.TextBoxFor(m => m.ContactNo)</td>
+
+                        </tr>
+                    
+                        <tr>
+                            <td>&nbsp;</td>
+                            <td>@Html.ValidationMessageFor(m => m.ContactNo)</td>
+                        </tr>
+
+                        <tr>
+                            <td><br />@Html.LabelFor(m => m.DesignatonId)</td>
+                            <td><br />@Html.DropDownListFor(m => m.DesignatonId, new SelectList(ViewBag.Designations, "Id", "DesignationName"), "--Select--", " ")
+                        </tr>
+
+                        <tr>
+                            <td>&nbsp;</td>
+                            <td>@Html.ValidationMessageFor(m => m.DepartmentId)</td>
+                        </tr>
+
+                        <tr>
+                            <td><br />@Html.LabelFor(m => m.DepartmentId)</td>
+                            <td><br />@Html.DropDownListFor(m => m.DepartmentId, new SelectList(ViewBag.Deapartments, "Id", "DepartmentName"), "--Select--", " ")
+                        </tr>
+
+                        <tr>
+                            <td>&nbsp;</td>
+                            <td>@Html.ValidationMessageFor(m => m.DepartmentId)</td>
+                        </tr>
+
+                        <tr>
+                            <td><br />@Html.LabelFor(m => m.CreditTaken)</td>
+                            <td><br />@Html.TextBoxFor(m => m.CreditTaken)</td>
+
+                        </tr>
+
+                        <tr>
+                            <td>&nbsp;</td>
+                            <td>@Html.ValidationMessageFor(m => m.CreditTaken)</td>
+                        </tr>
+                        <tr>
+                        <td></td>
+                        <td><button type="submit">Save</button></td>
+                        <tr>
+                        <tr>
+                            <td></td>
+                            <td> @ViewBag.Teaher</td>
+                        </tr>
+                    </table>
+                </form>
+
+            </fieldset>
+     
+
+@section scripts{
+    
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/jquery.validate.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+<script>
+
+
+    $("#myForm").validate({
+
+        rules: {
+            Name: "required",
+            Address: "required",
+            ContactNo: {
+                required: true,
+                number: true
+            },
+
+            DesignatonId: "required",
+            DepartmentId: "required",
+            CreditTaken: {
+                min: 0,
+                required: true,
+                number: true
+            },
+
+            Email: {
+                required: true,
+                email: true
+
+            }
+
+        },
+
+        messages: {
+            Name: "<br/>Please enter a name",
+            Address: "<br/>Please enter address",
+            ContactNo: {
+                required: "<br/>Please enter Contact No.",
+                number: "Contact No. must be numeric value"
+            },
+
+            DesignatonId: "<br/>Please select a designation",
+            DepartmentId: "<br/>Please select a department",
+            CreditTaken: {
+                min: "<br/>Credit to be taken cannot be a negative value",
+                required: "<br/>Please enter credit to be taken",
+                number: "<br/>Credit must be a numeric value"
+            },
+
+            Email: {
+                required: "<br/>Email is required",
+                email: "<br/>Please enter a valid email address"
+            }
+
+        }
+
+    });
+
+
+</script>
+
+
+
+    
+    
+}

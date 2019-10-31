@@ -1,0 +1,263 @@
+﻿@model TestProjectApp.Models.CourseAssignedToTeacher
+
+@{
+    ViewBag.MyName = "Course Assign to Teacher";
+    Layout = "~/Views/TeacherLayout.cshtml";
+}
+
+@section styles{
+
+    <style>
+        .coursetoteacher {
+            background: rgb(164,187,242);
+            cursor: pointer;
+            color: black;
+            font-weight: bold;
+        }
+
+        label {
+            font-size: 1.2em;
+        }
+
+        input[type="text"], input[type="textarea"], input[type="select"] {
+            width: 400px;
+            height: 30px;
+        }
+        button{
+            width:120px;
+        }
+
+        select {
+            font-size: 1.1em;
+        }
+
+        table {
+            width: 80%;
+        }
+    </style>
+}
+
+<br/><br /><br /><br />
+<br /><br />
+
+<center>
+    @using (Html.BeginForm())
+    {
+        <fieldset>
+
+            <legend>Course Assign To Teacher</legend>
+            <form method="POST">
+                <br /><br /><br /><br />
+                <table id="assignTable">
+                    <tr>
+                        <td><label>Department</label></td>
+                        <td>
+                            <select name="DepartmentId" id="departmentId">
+                                <option value="">-Select a Department-</option>
+
+                                @if (ViewBag.Departments != null)
+                                {
+
+                                    foreach (var aDepartment in ViewBag.Departments)
+                                    {
+                                        <option value="@aDepartment.Id">@aDepartment.DepartmentName</option>
+                                    }
+
+                                }
+
+
+                            </select>
+                        </td>
+                        <td>&nbsp;</td>
+                    </tr>
+
+
+                    <tr>
+
+                        <td><label for="TeacherId">Select Teacher</label></td>
+                        <td>
+                            <select name="TeacherId" id="TeacherId"></select>
+                        </td>
+                        <td>@Html.ValidationMessageFor(m => m.TeacherId)</td>
+                    </tr>
+
+                    <tr>
+                        <td>@Html.LabelFor(m => m.CreditToBeTaken)</td>
+                        <td>@Html.TextBoxFor(m => m.CreditToBeTaken)</td>
+
+                    </tr>
+
+                    <tr>
+                        <td>@Html.LabelFor(m => m.RemainingCredit)</td>
+                        <td>@Html.TextBoxFor(m => m.RemainingCredit)</td>
+
+                    </tr>
+
+                    <tr>
+
+                        <td><label for="CourseId">Select Course</label></td>
+                        <td>
+                            <select name="CourseId" id="CourseId"></select>
+                        </td>
+                        <td>@Html.ValidationMessageFor(m => m.CourseId)</td>
+                    </tr>
+
+                    <tr>
+                        <td>@Html.LabelFor(m => m.CourseName)</td>
+                        <td>@Html.TextBoxFor(m => m.CourseName)</td>
+                    </tr>
+
+                    <tr>
+                        <td>@Html.LabelFor(m => m.CourseCredit)</td>
+                        <td>@Html.TextBoxFor(m => m.CourseCredit)</td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td><input type="submit" value="Assign" id="submit" style="width:100px;padding:5px;" /></td>
+                    </tr>
+                </table>
+            </form>
+
+            <br /><br /><br /><br /><br />
+
+            <p id="messageLabel" style="" font-style:bold">@ViewBag.Message</p>
+        </fieldset>
+    }
+
+</center>
+
+@section scripts{
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/jquery.validate.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+
+
+
+    <script>
+        $(document).ready(function () {
+
+            $("#departmentId").focus(function() {
+
+                document.getElementById("messageLabel").innerHTML = "";
+
+            });
+
+
+            $("#RemainingCredit").attr("disabled", "disabled");
+            $("#CourseName").attr("disabled", "disabled");
+            $("#CourseCredit").attr("disabled", "disabled");
+            $("#CreditToBeTaken").attr("disabled", "disabled");
+            $("#TeacherId").empty();
+            $("#departmentId").change(function() {
+
+
+                $("#CourseCredit").val("");
+                $("#RemainingCredit").val("");
+                $("#CourseName").val("");
+                $("#CreditToBeTaken").val("");
+
+                var deptId = $("#departmentId").val();
+                $("#TeacherId").empty();
+                $("#TeacherId").append('<option value="">Select</option>');
+                $("#CourseId").empty();
+                $("#CourseId").append('<option value="">Select</option>');
+                var json = { departmentId: deptId };
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("GetTeacherByDepartmentId", "CourseAssignedToTeacher")',
+                    contentType: "application/json; charset=utf-8",
+                    data: JSON.stringify(json),
+                    success: function(data) {
+
+                        $.each(data, function(key, value) {
+
+                            $("#TeacherId").append('<option value="' + value.Id + '">' + value.Name + '</option>');
+
+                        });
+                    }
+                });
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("GetAllUnAssignedCourses", "CourseAssignedToTeacher")',
+                    contentType: "application/json; charset=utf-8",
+                    data: JSON.stringify(json),
+                    success: function(data) {
+
+                        $.each(data, function(key, value) {
+
+                            $("#CourseId").append('<option value="' + value.Id + '">' + value.Code + '</option>');
+
+                        });
+                    }
+                });
+                $("#CourseId").change(function() {
+
+                    var crsId = $("#CourseId").val();
+
+                    $("#CourseName").empty();
+                    $("#CourseCredit").empty();
+                    var json = { courseId: crsId };
+
+                    $.ajax({
+                        type: "POST",
+                        url: '@Url.Action("GetCourseById", "CourseAssignedToTeacher")',
+                        contentType: "application/json; charset=utf-8",
+                        data: JSON.stringify(json),
+                        success: function(data) {
+
+                            var name = data.Name;
+                            var credit = data.Credit;
+
+                            $("#CourseName").val(name);
+                            $("#CourseCredit").val(credit);
+
+                        }
+                    });
+                });
+            });
+
+            $("#submit").click(function() {
+                var crscrdt = $("#CourseCredit").val();
+                var rmncrdt = $("#RemainingCredit").val();
+
+
+                if (crscrdt>rmncrdt) {
+
+                    var message = confirm("Course credit is more than remaining credit of this teacher. Do you want to continue?");
+
+                    if (!message) {
+                        return false;
+                    }
+
+                }
+
+            });
+
+        $("#TeacherId").change(function() {
+
+            var tchrId = $("#TeacherId").val();
+            $("#CreditToBeTaken").empty();
+            $("#RemainingCredit").empty();
+            var json = { teacherId: tchrId };
+
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("GetTeacherDetails", "CourseAssignedToTeacher")',
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify(json),
+                success: function(data) {
+
+                    var crdTaken = data.CreditTaken;
+                    var creditRmn = data.RemainingCrdeit;
+
+                    $("#CreditToBeTaken").val(crdTaken);
+                    $("#RemainingCredit").val(creditRmn);
+
+                }
+            });
+        });
+
+    });
+    </script>
+
+}

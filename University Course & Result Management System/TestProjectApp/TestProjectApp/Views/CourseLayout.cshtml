@@ -1,0 +1,61 @@
+﻿
+@{
+    ViewBag.Title = ViewBag.MyName;
+    Layout = "~/Views/MasterUniversity.cshtml";
+}
+
+@section styles
+{
+    @RenderSection("styles", required: false)
+
+<style>
+    .course {
+        background-color: rgb(203,188,226);
+        color: black;
+        cursor: pointer;
+    }
+</style>
+
+
+}
+
+<div class="conleft">
+
+    <br /><br />
+    
+    <a href="/Course/SaveCourse">
+        <p class="subsubmenu savecourse"><br />Save Course<br /><br /></p>
+    </a>
+    
+    <a href="/CourseStatistics/ViewInformation">
+        <p class="subsubmenu viewcourse"><br />View Course Statistics<br /><br /></p>
+    </a>
+    
+    <a href="/EnrollStudent/Enroll">
+        <p class="subsubmenu enrollcourse"><br />Enroll in a Course<br /><br /></p>
+    </a>
+    
+    <a href="/UnassignCourses/Unassign">
+        <p class="subsubmenu unassigncourse"><br />Unassign All courses<br /><br /></p>
+    </a>
+
+
+            <br /><br /><br /><br />
+
+</div>
+
+<div class="conright">
+
+    <div class="wrapIt">
+
+        @RenderBody()
+
+    </div>
+
+</div>
+
+@section scripts
+{
+    @RenderSection("scripts", required: false)
+}
+

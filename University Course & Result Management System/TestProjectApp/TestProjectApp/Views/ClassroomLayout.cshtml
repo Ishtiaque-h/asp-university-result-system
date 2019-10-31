@@ -1,0 +1,56 @@
+﻿
+@{
+    ViewBag.Title = ViewBag.MyName;
+    Layout = "~/Views/MasterUniversity.cshtml";
+}
+
+
+@section styles
+{
+    @RenderSection("styles", required: false)
+
+<style>
+    .classrooms {
+        background-color: rgb(203,188,226);
+        color: black;
+        cursor: pointer;
+    }
+</style>
+
+}
+
+<div class="conleft">
+
+    <br /><br />
+    
+    <a href="/Room/SaveRoom">
+        <p class="subsubmenu alloclassrooms"><br />Allocate Classrooms<br /><br /></p>
+    </a>
+
+    <a href="/Room/ViewRoomSchedule">
+        <p class="subsubmenu viewschedule"><br />View Class Schedule and Room Allocation Information<br /><br /></p>
+    </a>
+    
+    <a href="/Room/UnallocateRooms">
+        <p class="subsubmenu unassignclass"><br />Unassign all Classrooms<br /><br /></p>
+    </a>
+
+            <br /><br /><br /><br />
+
+</div>
+
+<div class="conright">
+
+
+        @RenderBody()
+
+
+</div>
+
+
+@section scripts
+{
+    @RenderSection("scripts", required: false)
+}
+
+

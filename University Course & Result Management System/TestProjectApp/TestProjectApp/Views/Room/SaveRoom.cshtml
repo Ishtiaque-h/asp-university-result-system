@@ -1,0 +1,310 @@
+﻿@using TestProjectApp.Models
+
+@model RoomInfo
+
+@{
+    ViewBag.MyName = "Allocate Rooms";
+    List<Department> departments = ViewBag.Departments;
+    List<RoomInfo> rooms = ViewBag.Rooms;
+    List<RoomInfo> days = ViewBag.Days;
+    Layout = "~/Views/ClassroomLayout.cshtml";
+}
+
+@section styles{
+
+<link href="~/Content/bootstrap.css" rel="stylesheet" />
+<link href="~/Content/jquery-clockpicker.min.css" rel="stylesheet" />
+
+
+        <style >
+        
+        .alloclassrooms {
+            background: rgb(164,187,242);
+            cursor: pointer;
+            color: black;
+            font-weight: bold;
+        }
+
+        label {
+            font-size: 1.2em;
+        }
+
+
+        input[type="text"], input[type="textarea"], input[type="select"] {
+            width: 400px;
+            height: 30px;
+        }
+
+        button {
+            width: 120px;
+        }
+
+        select {
+            font-size: 1.1em;
+        }
+
+        table {
+            width: 80%;
+        }
+    </style>
+
+}
+
+
+<br/><br/>
+
+<br/>
+
+<center>
+
+    <fieldset>
+
+        <legend>Allocate Classrooms</legend>
+
+        <br /><br />
+
+        @using (Html.BeginForm())
+        {
+            <center>
+
+                <table width="80%">
+
+                    <tr>
+                        <td>
+                            <label for="DepartmentId">Department Name : </label>
+                        </td>
+
+                        <td>
+                            <select id="DepartmentId" name="DepartmentId">
+                                <option value="">-Select a Department-</option>
+
+                                @foreach (Department aDepartment in departments)
+                                {
+                                    <option value="@aDepartment.Id">@aDepartment.DepartmentName</option>
+                                }
+
+                            </select>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>
+                            &nbsp;
+                        </td>
+
+                        <td>
+                            @Html.ValidationMessageFor(m => m.DepartmentId)
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+                        <td>
+                            <label for="CourseId">Course : </label>
+                        </td>
+
+                        <td>
+                            <select id="CourseId" name="CourseId"></select>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>&nbsp;</td>
+
+                        <td>
+                            @Html.ValidationMessageFor(m => m.CourseId)
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+                        <td>
+                            <label for="RoomId">Room No. : </label>
+                        </td>
+
+                        <td>
+                            <select id="RoomId" name="RoomId">
+                                <option value="">-Select a Room-</option>
+                                @foreach (RoomInfo aRoomInfo in rooms)
+                                {
+                                    <option value="@aRoomInfo.RoomId">@aRoomInfo.RoomName</option>
+                                }
+                            </select>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>&nbsp;</td>
+
+                        <td>
+                            @Html.ValidationMessageFor(m => m.RoomId)
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+                        <td>
+                            <label for="DayId">Day : </label>
+                        </td>
+
+                        <td>
+                            <select id="DayId" name="DayId">
+                                <option value="">-Select a Day-</option>
+                                @foreach (RoomInfo aRoomInfo in days)
+                                {
+                                    <option value="@aRoomInfo.DayId">@aRoomInfo.DayName</option>
+                                }
+
+                            </select>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>&nbsp;</td>
+
+                        <td>
+                            @Html.ValidationMessageFor(m => m.DayId)
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+                        <td>
+                            <label for="FromTime">From : </label>
+                        </td>
+
+                        <td>
+                            <input type="text" id="FromTime" name="FromTime" />
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>&nbsp;</td>
+
+                        <td>
+                            @Html.ValidationMessageFor(m => m.FromTime)
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+                        <td>
+                            <label for="ToTime">To : </label>
+                        </td>
+
+                        <td>
+                            <input type="text" id="ToTime" name="ToTime" />
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>&nbsp;</td>
+
+                        <td>
+                            @Html.ValidationMessageFor(m => m.ToTime)
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+                        <td>&nbsp;</td>
+
+                        <td>
+                            <br />
+
+                            <button type="submit" id="allocate">Allocate</button>
+
+                        </td>
+
+                    </tr>
+
+
+
+
+                </table>
+
+            </center>
+            <br /><br />
+        }
+
+        <br /><br />
+
+        <center>
+
+            <h2>@ViewBag.Message</h2>
+
+        </center>
+
+        <br /><br /><br /><br />
+
+
+    </fieldset>
+
+</center>
+
+
+
+@section scripts
+{
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <script src="~/Scripts/jquery-clockpicker.min.js"></script>
+
+    <script>
+        
+       
+
+        $(document).ready(function () {
+
+            $('#FromTime').clockpicker({
+                donetext: 'Done'
+            });
+
+            $('#ToTime').clockpicker({
+                donetext: 'Done'
+            });
+
+
+            $("#allocate").click(function () {
+
+                var fromTime = document.getElementById("FromTime").value;
+                var toTime = document.getElementById("ToTime").value;
+                
+                if (toTime < fromTime) {
+                    alert("You have picked a wrong time duration");
+                    return false;
+                }
+            });
+
+
+            $("#DepartmentId").change(function () {
+                var departmentId = $("#DepartmentId").val();
+                $("#CourseId").empty();
+                var json = { departmentId: departmentId };
+
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("GetCoursesByDepartmentId", "Room")',
+                    contentType: "application/json; charset=utf-8",
+                    data: JSON.stringify(json),
+                    success: function (data) {
+                        $("#CourseId").append('<option value="">-Select-</option>');
+                        $.each(data, function (key, value) {
+                            $("#CourseId").append('<option value=' + value.Id + '>' + value.Name + '</option>');
+                        });
+                    }
+                });
+
+            });
+        });
+    </script>
+
+}

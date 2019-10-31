@@ -1,0 +1,93 @@
+﻿
+@{
+    ViewBag.Title = "ViewAllRoomSchedule";
+    List<Department> departments = ViewBag.Departments;
+    Layout = "~/Views/ClassroomLayout.cshtml";
+}
+
+
+
+<fieldset>
+
+    <legend>View Classroom Schedule and Room Allocation Information</legend>
+
+
+    <center>
+        <br /><br /><br /><br /><br /><br />
+
+        <form method="post">
+
+            <table>
+
+                <tr>
+                    <td>
+                        <label for="DepartmentId">Department Name : </label>
+                    </td>
+
+                    <td>
+                        <select id="DepartmentId" name="DepartmentId">
+                            <option value="">-Select a Department-</option>
+
+                            @if (departments != null)
+                            {
+                                foreach (Department aDepartment in departments)
+                                {
+                                    <option value="@aDepartment.Id">@aDepartment.DepartmentName</option>
+                                }
+                            }
+
+                        </select>
+                    </td>
+                </tr>
+
+            </table>
+
+        </form>
+
+        <br /><br /><br />
+
+        <table id="viewRoomSchedule"></table>
+
+
+    </center>
+
+
+</fieldset>
+
+
+
+
+@section scripts
+{
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+
+    <script>
+
+        $(document).ready(function () {
+
+            $("#DepartmentId").change(function () {
+                var departmentId = $("#DepartmentId").val();
+                $("#viewRoomSchedule").empty();
+                var json = { departmentId: departmentId };
+
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("GetCourseScheduleByDepartmentId", "Room")',
+                    contentType: "application/json; charset=utf-8",
+                    data: JSON.stringify(json),
+                    success: function (data) {
+                        $("#viewRoomSchedule").append('<tr><td>Course Code</td><td>Name</td><td>Schedule Info</td></tr>');
+                        $.each(data, function (key, value) {
+                            $("#viewRoomSchedule").append('<tr><td>' + data.CourseCode + '</td><td>' + data.CourseName + '</td><td>' + data.RoomDescription + '</td></tr>');
+                        });
+                    }
+                });
+
+            });
+        });
+    </script>
+
+}

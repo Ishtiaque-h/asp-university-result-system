@@ -1,0 +1,200 @@
+﻿
+@{
+    ViewBag.MyName = "View Student Result";
+    Layout = "~/Views/StudentLayout.cshtml";
+}
+
+@section styles{
+
+    <style>
+        .viewresult {
+            background: rgb(164,187,242);
+            cursor: pointer;
+            color: black;
+            font-weight: bold;
+        }
+
+        label {
+            font-size: 1.2em;
+        }
+
+
+        input[type="text"], input[type="textarea"], input[type="select"] {
+            width: 400px;
+            height: 30px;
+        }
+
+        button {
+            width: 120px;
+        }
+
+        select {
+            font-size: 1.1em;
+        }
+
+        table {
+            width: 80%;
+        }
+    </style>
+}
+
+@*@section style{
+<link href="~/Content/DataTables/css/dataTables.jqueryui.css" rel="stylesheet" />
+    }*@
+
+
+<form method="POST">
+    <div>
+
+        <br /><br /><br /><br /><br />
+
+        <center>
+
+            <fieldset>
+
+                <legend>View Result</legend>
+
+                <br /><br /><br />
+
+
+                <table>
+                    <tr>
+
+                        <td>
+                            <label for="StudentId">Student Registration No.</label>
+                        </td>
+                        <td>
+                            <select id="StudentId" name="StudentId" class="form-control">
+                                <option value="">Select.....</option>
+                                @foreach (var student in ViewBag.Students)
+                                {
+                                    <option value="@student.Id">@student.RegNo</option>
+                                }
+                            </select>
+                            <br />
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>
+                            <label for="Name">Name</label>
+                        </td>
+                        <td>
+                            <input type="text" id="Name" class="form-control" name="Name" readonly="readonly" /><br />
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>
+                            <label for="Email">Email</label>
+                        </td>
+                        <td>
+                            <input type="text" id="Email" class="form-control" name="Email" readonly="readonly" /><br />
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>
+                            <label for="Department">Department</label>
+                        </td>
+                        <td>
+                            <input type="text" id="DepartmentName" class="form-control" name="DepartmentName" readonly="readonly" /><br />
+                        </td>
+                    </tr>
+                </table>
+                <table id="myTable" class="table table-bordered table-hover table-striped">
+                    <thead>
+                        <tr>
+                            <th>Code</th>
+                            <th>Name</th>
+                            <th>Grade</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tableBody"></tbody>
+                </table>
+
+                <br /><br /><br /><br />
+
+            </fieldset>
+
+
+            <br /><br /><br /><br />
+            <button type="submit" onclick="">Make PDF</button>
+
+            <br /><br /><br /><br /><br />
+
+        </center>
+
+        <input id="studentName" name="studentName" style="display:none;"/>
+
+
+
+
+    </div>
+
+</form>
+
+@section scripts{
+
+<script src="~/Scripts/DataTables/jquery.dataTables.min.js"></script>
+   
+
+    <script>
+        $(document).ready(function () {
+            $("#myTable").hide();
+            var table = $("#myTable").DataTable();
+           
+            $("#StudentId").change(function () {
+
+            
+                var stId = $("#StudentId").val();
+                $("#myTable").show();
+                table.clear().draw(false);
+                $("#CourseId").empty();
+                $("#CourseId").append('<option value="">Select Course</option>');
+
+                var json = { studentId: stId };
+
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("GetStudentById", "StudentResult")',
+                    contentType: "application/json; charset=utf-8",
+                    data: JSON.stringify(json),
+                    success: function (data) {
+                        //alert(data);
+
+                        var name = data.Name;
+                        var email = data.Email;
+                        var dept = data.DepartmentName;
+                        $("#Name").val(name);
+                        $("#Email").val(email);
+                        $("#DepartmentName").val(dept);
+                        $("#studentName").val(name);
+                    }
+                });
+
+
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("GetStudentResults5ByStudentId", "StudentResult")',
+                    contentType: "application/json; charset=utf-8",
+                    data: JSON.stringify(json),
+                    success: function (data) {
+                        
+                        $.each(data, function (key, value) {
+                            //alert(key);
+                            $("#tableBody").append('<tr><td>' + value.Code + '</td><td>' + value.Name + '</td><td>' + value.Grade + '</td></tr>');
+                            table.row.add([
+                                value.Code, value.Name, value.Grade
+                            ]).draw(false)
+
+                        });
+                    }
+                });
+
+            });
+
+        });
+    </script>
+}
+
